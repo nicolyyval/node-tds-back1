@@ -18,13 +18,13 @@ export default class UsersRepository {
     return user;
   }
 
-  getUserByEmail(email) {
-    const user = this.users.find((user) => user.email === email);
+  async getUserByEmail(email) {
+    const user = await this.pg.oneOrNone("SELECT * FROM users WHERE email = $1", email);
     return user;
   }
 
-  createUser(user) {
-    this.users.push(user);
+  async createUser(user) {
+    await this.pg.none("INSERT INTO users (id, name, email, password) VALUES ($1, $2, $3, $4)", [user.id, user.name, user.email, user.password]);
     return user;
   }
 
