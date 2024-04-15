@@ -28,3 +28,6 @@ const __dirname = path.dirname(__filename);
 
 const filePath = join(__dirname, "create-tables.sql");
 const query = new pgp.QueryFile(filePath);
+
+pg.query(query);
+export default pg;
