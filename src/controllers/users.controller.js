@@ -5,8 +5,8 @@ import UsersRepository from "../models/users/UsersRepository.js";
 
 const usersRepository = new UsersRepository();
 
-export const getUsers = (req, res) => {
-  const users = usersRepository.getUsers();
+export const getUsers = async (req, res) => {
+  const users =  await usersRepository.getUsers();
 
   if (!users) {
     return res.status(404).send({ message: "Não há usuários cadastrados" });
@@ -14,10 +14,10 @@ export const getUsers = (req, res) => {
   return res.status(200).send({ totalUsers: users.length, users });
 };
 
-export const getUserById = (req, res) => {
+export const getUserById = async (req, res) => {
   const { id } = req.params;
 
-  const user = usersRepository.getUserById(id);
+  const user = await usersRepository.getUserById(id);
 
   if (!user) {
     return res.status(404).send({ message: "Usuário não encontrado" });
