@@ -1,10 +1,15 @@
+import pg from "../../database/index.js";
+
 export default class UsersRepository {
   constructor() {
-    this.users = [];
+    this.pg = pg;
   }
 
-  getUsers() {
-    return this.users;
+  async getUsers() {
+    const allUsers = await this.pg.manyOrNone("SELECT * FROM users");
+    console.log(allUsers);
+    return allUsers;  
+
   }
 
   getUserById(id) {

@@ -1,9 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
 import { router } from "./routes/index.routes.js";
-import connect from "./database/index.js";
-
-connect();
 config();
 
 const port = process.env.PORT || 5000;
