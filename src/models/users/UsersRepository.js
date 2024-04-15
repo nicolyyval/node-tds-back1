@@ -7,13 +7,14 @@ export default class UsersRepository {
 
   async getUsers() {
     const allUsers = await this.pg.manyOrNone("SELECT * FROM users");
-    console.log(allUsers);
+   // console.log(allUsers);
     return allUsers;  
 
   }
 
-  getUserById(id) {
-    const user = this.users.find((user) => user.id === id);
+  async getUserById(id) {
+    const user = await this.pg.oneOrNone("SELECT * FROM users WHERE id = $1", id);
+    console.log(user);
     return user;
   }
 
