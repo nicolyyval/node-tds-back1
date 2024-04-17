@@ -2,8 +2,8 @@ import { Router } from "express";
 
 import {
   getStudents,
-  getStudent,
-  createStudent,
+  getStudentbyId,
+  addStudent,
   updateStudent,
   deleteStudent,
 } from "../controllers/students.controller.js";
@@ -11,8 +11,8 @@ import {
 const studentsRouter = Router();
 
 studentsRouter.get("/", getStudents);
-studentsRouter.get("/:id", getStudent);
-studentsRouter.post("/", createStudent);
+studentsRouter.get("/:id", getStudentbyId);
+studentsRouter.post("/", addStudent);
 studentsRouter.put("/:id", updateStudent);
 studentsRouter.delete("/:id", deleteStudent);
 

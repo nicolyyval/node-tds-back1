@@ -1,5 +1,3 @@
-import { hash } from "bcrypt";
-
 import Student from "../models/students/Student.js";
 import StudentsRepository from "../models/students/StudentsRepository.js";
 
@@ -18,7 +16,7 @@ export const getStudents = async (req, res) => {
   }
 };
 
-export const getStudent = async (req, res) => {
+export const getStudentbyId = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -34,17 +32,18 @@ export const getStudent = async (req, res) => {
   }
 };
 
-export const createStudent = async (req, res) => {
+export const addStudent = async (req, res) => {
   try {
-    const { name, age } = req.body;
+    const { id } = req.paramns;
+    const { name, age, email, code, grade } = req.body;
 
-    const studentAlreadyExists = await studentsRepository.getStudentByName(name);
+    const studentAlreadyExists = await studentsRepository.getStudentById(id);
 
     if (studentAlreadyExists) {
       return res.status(409).send({ message: "Estudante já cadastrado" });
     }
 
-    const student = new Student(name, age);
+    const student = new Student(id, name, age, email, code, grade);
 
     await studentsRepository.createStudent(student);
 
@@ -57,7 +56,7 @@ export const createStudent = async (req, res) => {
 export const updateStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, age } = req.body;
+    const { name, age, email, code, grade} = req.body;
 
     const student = await studentsRepository.getStudentById(id);
 
@@ -65,7 +64,7 @@ export const updateStudent = async (req, res) => {
       return res.status(404).send({ message: "Estudante não encontrado" });
     }
 
-    const updatedStudent = new Student(name, age);
+    const updatedStudent = new Student(name, age, email, code, grade);
 
     await studentsRepository.updateStudent(id, updatedStudent);
 
@@ -93,5 +92,5 @@ export const deleteStudent = async (req, res) => {
   } catch (error) {
     return res.status(500).send({ message: "Erro ao deletar estudante", error: error.message });
   }
-  
+
 };
