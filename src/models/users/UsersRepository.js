@@ -11,7 +11,7 @@ export default class UsersRepository {
       // console.log(allUsers);
       return allUsers;
     } catch (error) {
-      console.error("Failed to get all users", error);
+   //   console.error("Failed to get all users", error);
       throw error;
     }
 
@@ -23,7 +23,7 @@ export default class UsersRepository {
       console.log(user);
       return user;
     } catch (error) {
-      console.error('Failed to get user by id ${id}', error);
+    //  console.error('Failed to get user by id ${id}', error);
       throw error;
     }
   }
@@ -33,7 +33,7 @@ export default class UsersRepository {
       const user = await this.pg.oneOrNone("SELECT * FROM users WHERE email = $1", email);
       return user;
     } catch (error) {
-      console.error('Failed to get user by email, ${email}', error);
+     // console.error('Failed to get user by email, ${email}', error);
       throw error;
     }
   }
@@ -43,7 +43,7 @@ export default class UsersRepository {
       await this.pg.none("INSERT INTO users (id, name, email, password) VALUES ($1, $2, $3, $4)", [user.id, user.name, user.email, user.password]);
       return user;
     } catch (error) {
-      console.error("Failed to create user", error);
+    //  console.error("Failed to create user", error);
       throw error;
     }
   }
@@ -59,7 +59,7 @@ export default class UsersRepository {
       const updatedUser = await this.pg.oneOrNone("UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4 RETURNING *", [name, email, password, id]);
       return updatedUser;
     } catch (error) {
-      console.error("Failed to update user", error);
+     // console.error("Failed to update user", error);
       throw error;
     }
   }
@@ -68,7 +68,7 @@ export default class UsersRepository {
    try {
     await this.pg.none("DELETE FROM users WHERE id = $1", id);
    } catch (error) {
-    console.log('Failed to delete user with id ${id}', error);
+   // console.log('Failed to delete user with id ${id}', error);
     throw error;
    }
   }
