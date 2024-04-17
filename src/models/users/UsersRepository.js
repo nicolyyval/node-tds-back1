@@ -33,7 +33,7 @@ export default class UsersRepository {
       const user = await this.pg.oneOrNone("SELECT * FROM users WHERE email = $1", email);
       return user;
     } catch (error) {
-      console.error("Failed to get user by email", error);
+      console.error('Failed to get user by email, ${email}', error);
       throw error;
     }
   }
@@ -68,7 +68,7 @@ export default class UsersRepository {
    try {
     await this.pg.none("DELETE FROM users WHERE id = $1", id);
    } catch (error) {
-    console.log("Failed to delete user", error);
+    console.log('Failed to delete user with id ${id}', error);
     throw error;
    }
   }
