@@ -1,3 +1,4 @@
+import { hash } from "bcrypt";
 import Student from "../models/students/Student.js";
 import StudentsRepository from "../models/students/StudentsRepository.js";
 
@@ -34,18 +35,11 @@ export const getStudentbyId = async (req, res) => {
 
 export const addStudent = async (req, res) => {
   try {
-    const { id } = req.paramns;
     const { name, age, email, code, grade } = req.body;
 
-    const studentAlreadyExists = await studentsRepository.getStudentById(id);
+    const student = new Student( name, age, email, code, grade);
 
-    if (studentAlreadyExists) {
-      return res.status(409).send({ message: "Estudante já cadastrado" });
-    }
-
-    const student = new Student(id, name, age, email, code, grade);
-
-    await studentsRepository.createStudent(student);
+    await studentsRepository.addStudent(student);
 
     return res.status(201).send({ message: "Estudante criado com sucesso", student });
   } catch (error) {
@@ -58,17 +52,15 @@ export const updateStudent = async (req, res) => {
     const { id } = req.params;
     const { name, age, email, code, grade} = req.body;
 
-    const student = await studentsRepository.getStudentById(id);
+    const getStudentById = await studentsRepository.getStudentById(id);
 
-    if (!student) {
+    if (!getStudentById) {
       return res.status(404).send({ message: "Estudante não encontrado" });
     }
 
-    const updatedStudent = new Student(name, age, email, code, grade);
+const student = await studentsRepository.updateStudent(id, name, age, email, code, grade );
 
-    await studentsRepository.updateStudent(id, updatedStudent);
-
-    return res.status(200).send({ message: "Estudante atualizado com sucesso", student: updatedStudent });
+    return res.status(200).send({ message: "Estudante atualizado com sucesso", student });
   } catch (error) {
     return res.status(500).send({ message: "Erro ao atualizar estudante", error: error.message });
   }
